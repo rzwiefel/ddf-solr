@@ -279,6 +279,8 @@
             <groupId>ddf</groupId>
             <artifactId>solr-distro</artifactId>
             <version>${project.version}</version>
+            <classifier>assembly</classifier>
+            <type>zip</type>
         </dependency>
     </dependencies>
 
