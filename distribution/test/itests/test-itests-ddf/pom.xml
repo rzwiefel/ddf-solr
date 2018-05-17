@@ -26,7 +26,7 @@
     <name>DDF :: Integration :: Test</name>
     <properties>
         <solr.exec>
-            ${project.build.directory}/solr-${solr.version}/bin/solr
+            ${project.build.directory}/solr/bin/solr
         </solr.exec>
     </properties>
     <dependencies>

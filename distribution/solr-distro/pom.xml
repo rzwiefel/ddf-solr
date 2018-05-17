@@ -71,7 +71,7 @@
                 <executions>
                     <execution>
                         <configuration>
-                            <finalName>solr-${solr.version}</finalName>
+                            <finalName>solr</finalName>
                             <descriptor>assembly.xml</descriptor>
                         </configuration>
                         <phase>prepare-package</phase>
