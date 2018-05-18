@@ -2,8 +2,15 @@
 
 SCRIPTDIR=$(dirname "$0")
 DDF_HOME=$(cd "${SCRIPTDIR}/.."; pwd -P)
-SOLR_PORT=8994
-SOLR_VER=6.6.2
+SOLR_EXEC=${DDF_HOME}/solr/bin/solr
+PROPERTIES_FILE=${DDF_HOME}/etc/system.properties
+
+# This function does not handle multi-line properties
+get_property() {
+    grep ^$1 "$PROPERTIES_FILE" | cut -d '=' -f2
+}
+
+SOLR_PORT=$( get_property "solr.http.port" )
 
 while true; do
   # Remove the restart file indicator so we can detect later if restart was requested
@@ -11,7 +18,6 @@ while true; do
 
   #Start SOLR
   #####################################################################################
-  #
   #  ___      _
   # / __| ___| |_ _
   # \__ \/ _ \ | '_|
@@ -23,7 +29,7 @@ while true; do
   echo "Starting Solr on port $SOLR_PORT"
   echo "Scriptdir is $SCRIPTDIR"
   echo "DDF_HOME IS $DDF_HOME"
-  ${DDF_HOME}/solr-${SOLR_VER}/bin/solr.sh start -p $SOLR_PORT
+  $SOLR_EXEC start -p $SOLR_PORT
   SOLR_START_RC=$?
   if [ "$SOLR_START_RC" -ne 0 ]; then
       echo "WARNING! solr start process returned non-zero error code, please check solr logs"
@@ -42,7 +48,7 @@ while true; do
       echo "Restarting JVM..."
     else
       echo "Stopping solr process on port $SOLR_PORT"
-      ${DDF_HOME}/solr-${SOLR_VER}/bin/solr.sh stop -p $SOLR_PORT
+      $SOLR_EXEC stop -p $SOLR_PORT
       exit $RC
     fi
   fi
