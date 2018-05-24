@@ -295,7 +295,7 @@
             <properties>
                 <script.extension>.cmd</script.extension>
             </properties>
-        </profile>'
+        </profile>
         <profile>
             <id>Unix</id>
             <activation>
