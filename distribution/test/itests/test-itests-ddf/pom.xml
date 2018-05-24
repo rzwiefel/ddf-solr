@@ -295,6 +295,17 @@
             <properties>
                 <script.extension>.cmd</script.extension>
             </properties>
+        </profile>'
+        <profile>
+            <id>Unix</id>
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+            <properties>
+                <script.extension/>
+            </properties>
         </profile>
     </profiles>
 
