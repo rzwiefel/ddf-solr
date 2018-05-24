@@ -293,10 +293,7 @@
                 </os>
             </activation>
             <properties>
-                <executable.command>call
-                    ${solr.exec}.${script.extension}
-                </executable.command>
-                <script.extension>cmd</script.extension>
+                <script.extension>.cmd</script.extension>
             </properties>
         </profile>
     </profiles>
@@ -369,7 +366,7 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>${solr.exec}</executable>
+                            <executable>${solr.exec}${script.extension}</executable>
                             <arguments>
                                 <!--Restart to stop Solr is already running and the start it.-->
                                 <argument>restart</argument>
