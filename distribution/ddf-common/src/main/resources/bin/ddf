@@ -100,7 +100,7 @@ print_messages() {
     else
       VALUE="is NOT"
     fi
-    echo "DDF $VALUE managing the starting and stopping of Solr"
+    echo "The application $VALUE managing the starting and stopping of Solr"
 }
 
 
