@@ -310,27 +310,6 @@
 
     <build>
         <plugins>
-            <!--Load system properties to discover the port that DDF expects for Solr-->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>properties-maven-plugin</artifactId>
-                <version>1.0.0</version>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>read-project-properties</goal>
-                        </goals>
-                        <configuration>
-                            <files>
-                                <file>
-                                    ${highest-basedir}/distribution/ddf-common/src/main/resources-filtered/etc/system.properties
-                                </file>
-                            </files>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
 
             <!--Unpack Solr distribution-->
             <plugin>
@@ -379,13 +358,13 @@
                             <executable>${solr.exec}${script.extension}</executable>
                             <arguments>
                                 <!--Restart to stop Solr is already running and the start it.-->
-                                <argument>restart</argument>
+                                <argument>start</argument>
                                 <argument>-p</argument>
                                 <!--The maven properties plugin reads the system properties file-->
                                 <!--and provides the solr.http.port property from it.-->
-                                <argument>${solr.http.port}</argument>
+                                <argument>9994</argument>
                                 <argument>-m</argument>
-                                <argument>2g</argument>
+                                <argument>512m</argument>
                             </arguments>
                             <async>true</async>
                             <asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>
@@ -402,7 +381,7 @@
                             <arguments>
                                 <argument>stop</argument>
                                 <argument>-p</argument>
-                                <argument>${solr.http.port}</argument>
+                                <argument>9994</argument>
                             </arguments>
                             <async>true</async>
                             <asyncDestroyOnShutdown>true</asyncDestroyOnShutdown>

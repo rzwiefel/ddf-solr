@@ -16,12 +16,15 @@ In short:
 * Use remote debugging to debug tests themselves or anything related to production code
 * Use local debugging to debug the code that sets up and configures the testing environment
 
-## Notes on Solr
-Solr is now runs in a separate (3rd) JVM as its own process. The default port is hardcoded to `9994`. (`http://localhost:9994/solr` to access solr UI) Also the actual solr instance lives inside of the `test-itest-ddf/target/solr` folder and **not** in the exam folder. Since there is not a per-exam-folder instance of solr we do not currently support running multiple itests at once. 
+## Solr
+Solr runs in its own OS process separate PAX-EXAM and the application. Things to know include:
 
-The Maven plugin exec-maven-plugin executes the Solr start command before the itests begin. The plugin also executes the Solr stop command when the itests have terminated.
-
-Because not every itest cleans up after itself, it is _possible_ to leak data between separate runs of the itests, if the process was terminated abnormally. Use `mvn clean` to delete the target folder. This ensures future itests have a clean Solr installation.
+* The default port for Solr is hardcoded to `9994`. 
+* The Solr administration UI is available at `http://localhost:9994/solr`
+* The Maven exec-maven-plugin executes the Solr start command before the itests begin. The plugin also executes the Solr stop command when the itests have terminated.
+* The files for the Solr instance are located inside of the `test-itest-ddf/target/solr` folder and **not** in the exam folder. Because there is not a per-exam-folder instance of Solr, it is not
+ recommended to run multiple itests concurrently because the tests may corrupt each other's data.
+* Because not every itest cleans up after itself, it is possible to leak data between separate runs of the itests, **if** the test process terminated abnormally. In such cases, use `mvn clean` to delete the target folder. This ensures future itests have a clean Solr installation.
 
 ## SSH Into a Running Instance
 It is possible to SSH into a running test instance. This will allow you to use the shell to inspect the runtime state while the test probe is installed and running. The SSH port is dynamic and can be found in `target/exam/<GUID>/etc/org.apache.karaf.shell.cfg`.
