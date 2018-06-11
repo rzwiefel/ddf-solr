@@ -60,10 +60,19 @@ is_restarting() {
     return $RC
 }
 
+# Return 0 (success/true) if Solr must require client authentication for two-way TLS
+solr_client_auth_is_required() {
+    local RC=1
+    if is_managing_solr && is_protocol_https $SOLR_URL && [ $SOLR_REQUIRE_TWO_WAY_TLS = true ]; then
+        RC=0
+    fi
+    return $RC
+}
+
 # Return 0 (success/true) Solr should only accept requests from the same host
 solr_must_deny_remote_requests() {
     local RC=1
-    if [ $SOLR_DENY_REMOTE_REQUESTS = true ]; then
+    if is_managing_solr && [ $SOLR_DENY_REMOTE_REQUESTS = true ]; then
         RC=0
     fi
     return $RC
@@ -76,7 +85,7 @@ clear_restart_flag() {
   rm -f $RESTART_FILE
 }
 
-# Blindly start Solr
+# Start Solr using Solr's script
 start_solr() {
 
     if solr_must_deny_remote_requests;  then
@@ -120,13 +129,18 @@ stop_solr() {
 print_messages() {
     echo "Home directory is $HOME_DIR"
     echo "Solr URL is $SOLR_URL"
-    local VALUE
     if is_managing_solr; then
-      VALUE="is"
-    else
-      VALUE="is NOT"
+        echo "This scripts manages starting and stopping Solr"
     fi
-    echo "The application $VALUE managing the starting and stopping of Solr"
+    if solr_must_deny_remote_requests; then
+        echo "Solr will not accept remote requests"
+    fi
+    if solr_client_auth_is_required; then
+      echo "Solr will require client PKI authentication (two-way TLS)"
+    fi
+
+    # Provide a newline for good vertical space
+    echo ""
 }
 
 
