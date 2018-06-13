@@ -118,7 +118,7 @@ set_solr_https_properties() {
       export SOLR_SSL_TRUST_STORE_PASSWORD=$(get_property javax.net.ssl.trustStorePassword)
       export SOLR_SSL_TRUST_STORE_TYPE=$(get_property javax.net.ssl.trustStoreType)
       # Require two-way TLS
-      export SOLR_SSL_NEED_CLIENT_AUTH=$SOLR_DENY_REMOTE_REQUESTS
+      export SOLR_SSL_NEED_CLIENT_AUTH=$SOLR_REQUIRE_TWO_WAY_TLS
       export SOLR_SSL_WANT_CLIENT_AUTH=false
 }
 
