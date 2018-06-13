@@ -81,20 +81,26 @@ solr_must_deny_remote_requests() {
 
 # Remove the restart file so we can detect later if restart was requested
 clear_restart_flag() {
-
   rm -f $RESTART_FILE
+}
+
+# Set the appropriate option to prevent Solr from responding to remote requests
+deny_remote_connection_option() {
+    if solr_must_deny_remote_requests;  then
+      if is_protocol_https $SOLR_URL; then
+        echo "-Dsolr.jetty.host=127.0.0.1"
+      else
+        echo "-Djetty.host=127.0.0.1"
+      fi
+    fi
 }
 
 # Start Solr using Solr's script
 start_solr() {
 
-    if solr_must_deny_remote_requests;  then
-      local localhost_only="-Dsolr.jetty.host=127.0.0.1"
-    fi
-
     # Does not check to see if Solr is running the Solr port; there is no guarantee
     # the Solr server is for this instance of DDF. It could have been started elsewhere.
-    $SOLR_EXEC restart -p $SOLR_PORT $localhost_only
+    $SOLR_EXEC restart -p $SOLR_PORT $(deny_remote_connection_option)
     local SOLR_START_RC=$?
         if [ "$SOLR_START_RC" -ne 0 ]; then
             echo "WARNING! Solr start returned error code, please check Solr logs"
