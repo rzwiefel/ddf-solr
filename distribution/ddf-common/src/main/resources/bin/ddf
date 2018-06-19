@@ -35,7 +35,7 @@ get_property() {
 
 refresh_properties() {
     # Extract values from Java properties file and construct Solr URL
-    MANAGE_SOLR=$(get_property solr.managed.internally)
+    MANAGE_SOLR=$(get_property solr.managed)
     SOLR_PORT=$(get_property solr.http.port)
     SOLR_CLIENT=$(get_property solr.client)
     TEMPLATE=$(get_property solr.http.url)
