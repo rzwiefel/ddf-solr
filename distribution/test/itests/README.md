@@ -22,8 +22,8 @@ Solr runs in its own OS process separate PAX-EXAM and the application. Things to
 * The default port for Solr is hardcoded to `9994`. 
 * The Solr administration UI is available at `http://localhost:9994/solr`
 * The Maven exec-maven-plugin executes the Solr start command before the itests begin. The plugin also executes the Solr stop command when the itests have terminated.
-* The files for the Solr instance are located inside of the `test-itest-ddf/target/solr` folder and **not** in the exam folder. Because there is not a per-exam-folder instance of Solr, it is not
- recommended to run multiple itests concurrently because the tests may corrupt each other's data.
+* The files for the Solr instance are located inside of the `test-itest-ddf/target/solr` folder and **not** in the exam folder. There is not a per exam-folder copy of Solr. Therefore it is not
+ recommended to run itests concurrently because the tests may corrupt each other's data.
 * Because not every itest cleans up after itself, it is possible to leak data between separate runs of the itests, **if** the test process terminated abnormally. In such cases, use `mvn clean` to delete the target folder. This ensures future itests have a clean Solr installation.
 
 ## SSH Into a Running Instance
